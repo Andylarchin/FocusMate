@@ -29,8 +29,14 @@ let AuthService = class AuthService {
             return resp.status(400).send({ msg: 'Please enter all fields' });
         }
         try {
+            return await this.userRepository.save({
+                name,
+                email,
+                password: await bcryptjs.hash(password, 12),
+            });
         }
         catch (error) {
+            console.error(error);
             if (error instanceof typeorm_2.QueryFailedError) {
                 if (error.code === '23505') {
                     console.error('Unique constraint failed');

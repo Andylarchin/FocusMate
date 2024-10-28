@@ -4,7 +4,11 @@ import { Repository } from 'typeorm';
 export declare class AuthService {
     private userRepository;
     constructor(userRepository: Repository<User>);
-    registerUser(user: User, resp: Response): Promise<Response<any, Record<string, any>>>;
+    registerUser(user: User, resp: Response): Promise<Response<any, Record<string, any>> | ({
+        name: string;
+        email: string;
+        password: string;
+    } & User)>;
     loginUser(user: User, resp: Response): Promise<Response<any, Record<string, any>>>;
     authUser(req: Request, resp: Response): Promise<Response<any, Record<string, any>>>;
     refreshUser(req: Request, resp: Response): Promise<Response<any, Record<string, any>>>;
