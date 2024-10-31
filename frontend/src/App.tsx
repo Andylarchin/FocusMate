@@ -1,17 +1,19 @@
 import "./App.css";
-import Auth from "./components/Auth/auth";
+import Auth from "./Pages/Auth/auth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Main from "./components/Main_Page/main";
-import Board from "./components/Board/board";
+import Main from "./Pages/Main_Page/main";
+import Board from "./Pages/Board/board";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route exact path="/" Component={Auth} />
-          <Route exact path="/main" Component={Main} />
-          <Route exact path="/board" Component={Board} />
+          <Route exact path="/" element={<Auth />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/board" element={<Board />} />
+          <Route path="/dashboard" element={<Dashboard><div /></Dashboard>} />
         </Routes>
       </Router>
     </>
