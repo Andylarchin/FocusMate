@@ -1,13 +1,13 @@
 #root {
-  min-width: 1080px;
-  height: 587px;
+  min-width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
 }
 
 body {
-  min-width: 1080px;
-  height: 589px;
+  min-width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
 }

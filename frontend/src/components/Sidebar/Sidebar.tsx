@@ -1,13 +1,19 @@
-import { LockIcon, LucideIcon } from "lucide-react";
+import { Briefcase, ChevronDown, ChevronUp, Home, LockIcon, LucideIcon , Search, Settings, User, Users, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
+import { setIsSidebarCollapsed } from "../../state";
 
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
 
-  const sideBarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bh-white w-64`;
+  const dispatch = useAppDispatch();
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed
+  );
+
+  const sideBarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bh-white ${isSidebarCollapsed ? "w-10 hidden" : 'w-64'}`;
 
   return (
     <>
@@ -17,6 +23,11 @@ const Sidebar = () => {
             <div className="text-xl font-bold text-gray-800 dark:text-white">
               FocusMate
             </div>
+            {isSidebarCollapsed ? null : (
+                <button className="py-3" onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
+                    <X className="h-6 w-6 test-gray-800 hover:text-gray-500 dark:text-white" />
+                </button>
+            )}
           </div>
           <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
             <img src="" alt="Logo" width={40} height={40} />
@@ -30,6 +41,20 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
+
+          <nav className="z-10 w-full">
+            <SidebarLink href="/dashboard" icon={Home} label="Home" />
+            <SidebarLink href="/timeline" icon={Briefcase} label="Timeline" />
+            <SidebarLink href="/search" icon={Search} label="Search" />
+            <SidebarLink href="/settings" icon={Settings} label="Settings" />
+            <SidebarLink href="/users" icon={User} label="Users" />
+            <SidebarLink href="/teams" icon={Users} label="Teams" />
+          </nav>
+
+          <button onClick={() => setShowProjects((prev) => !prev)} className="flex w-full items-center justify-between px-8 py-3 text-gray-500">
+            <span className="">Projects</span>
+            {showProjects ? (< ChevronUp className="h-5 w-5"></ChevronUp>) : (<ChevronDown className="h-5 w-5"></ChevronDown>)}
+          </button>
         </div>
       </div>
     </>
@@ -40,31 +65,23 @@ interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
   label: string;
-  isCollapsed: boolean;
 }
 
 const SidebarLink = ({
   href,
   icon: Icon,
   label,
-  isCollapsed,
 }: SidebarLinkProps) => {
   const location = useLocation();
   const isActive =
     location.pathname === href ||
     (location.pathname === "/" && href === "/dashboard");
-  const screenWidth = window.innerWidth;
-
-  const dispatch = useAppDispatch();
-  const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarCollapsed
-  );
 
   return (
     <div
       className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gry-100 dark:bg-black dark:hover:bg-gray-700 ${
         isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""
-      }`}
+      } justify-start px-8 py-3`}
     >
       {isActive && (
         <div className="absolute left-0 w-[5px] h-full bg-blue-200"></div>
