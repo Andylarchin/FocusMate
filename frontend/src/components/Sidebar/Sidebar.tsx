@@ -1,4 +1,21 @@
-import { Briefcase, ChevronDown, ChevronUp, Home, LockIcon, LucideIcon , Search, Settings, User, Users, X } from "lucide-react";
+import {
+  AlertCircle,
+  AlertOctagon,
+  AlertTriangle,
+  Briefcase,
+  ChevronDown,
+  ChevronUp,
+  Home,
+  Layers3,
+  LockIcon,
+  LucideIcon,
+  Search,
+  Settings,
+  ShieldAlert,
+  User,
+  Users,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -10,10 +27,13 @@ const Sidebar = () => {
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarCollapsed
+    (state: { global: { isSidebarCollapsed: boolean } }) =>
+      state.global.isSidebarCollapsed
   );
 
-  const sideBarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bh-white ${isSidebarCollapsed ? "w-10 hidden" : 'w-64'}`;
+  const sideBarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bh-white ${
+    isSidebarCollapsed ? "w-10 hidden" : "w-64"
+  }`;
 
   return (
     <>
@@ -24,9 +44,14 @@ const Sidebar = () => {
               FocusMate
             </div>
             {isSidebarCollapsed ? null : (
-                <button className="py-3" onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
-                    <X className="h-6 w-6 test-gray-800 hover:text-gray-500 dark:text-white" />
-                </button>
+              <button
+                className="py-3"
+                onClick={() =>
+                  dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))
+                }
+              >
+                <X className="h-6 w-6 test-gray-800 hover:text-gray-500 dark:text-white" />
+              </button>
             )}
           </div>
           <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
@@ -51,10 +76,39 @@ const Sidebar = () => {
             <SidebarLink href="/teams" icon={Users} label="Teams" />
           </nav>
 
-          <button onClick={() => setShowProjects((prev) => !prev)} className="flex w-full items-center justify-between px-8 py-3 text-gray-500">
+          <button
+            onClick={() => setShowProjects((prev) => !prev)}
+            className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
+          >
             <span className="">Projects</span>
-            {showProjects ? (< ChevronUp className="h-5 w-5"></ChevronUp>) : (<ChevronDown className="h-5 w-5"></ChevronDown>)}
+            {showProjects ? (
+              <ChevronUp className="h-5 w-5"></ChevronUp>
+            ) : (
+              <ChevronDown className="h-5 w-5"></ChevronDown>
+            )}
           </button>
+
+          <button
+            onClick={() => setShowPriority((prev) => !prev)}
+            className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
+          >
+            <span className="">Priority</span>
+            {showPriority ? (
+              <ChevronUp className="h-5 w-5"></ChevronUp>
+            ) : (
+              <ChevronDown className="h-5 w-5"></ChevronDown>
+            )}
+          </button>
+
+          {showPriority && (
+            <>
+              <SidebarLink href="/priority/urgent" icon={AlertCircle} label="Urgent" />
+              <SidebarLink href="/priority/high" icon={ShieldAlert} label="High" />
+              <SidebarLink href="/priority/medium" icon={AlertTriangle} label="Medium" />
+              <SidebarLink href="/priority/low" icon={AlertOctagon} label="Low" />
+              <SidebarLink href="/priority/backlog" icon={Layers3} label="Backlog" />
+            </>
+          )}
         </div>
       </div>
     </>
@@ -67,11 +121,7 @@ interface SidebarLinkProps {
   label: string;
 }
 
-const SidebarLink = ({
-  href,
-  icon: Icon,
-  label,
-}: SidebarLinkProps) => {
+const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   const location = useLocation();
   const isActive =
     location.pathname === href ||
@@ -79,7 +129,7 @@ const SidebarLink = ({
 
   return (
     <div
-      className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gry-100 dark:bg-black dark:hover:bg-gray-700 ${
+      className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${
         isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""
       } justify-start px-8 py-3`}
     >

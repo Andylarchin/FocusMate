@@ -1,14 +1,27 @@
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 
 const Auth = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: object) => console.log(data);
 
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: object) => {
+    try {
+      console.log(data);
+      Swal.fire("Good job!", "You are being logged in!", "success").then(() => {
+        navigate("/dashboard");
+      });
+    } catch (error) {
+      Swal.fire("Oops...", "Invalid credentials", "error");
+    }
+  };
   return (
     <div className="flex flex-row h-full w-full">
       <div className="w-1/2 h-full flex flex-col items-center justify-center">
