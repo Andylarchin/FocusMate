@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Task } from "../../state/api";
 import { format } from "date-fns";
+import ModalEditTask from "../ModalEditTask/ModalEditTask";
+import { EllipsisVertical } from "lucide-react";
 
 type Props = {
   task: Task;
 };
 
 const TaskCard = ({ task }: Props) => {
+  const [isModalEditTaskOpen, setIsModalEditTaskOpen] = useState(false);
+
   return (
     <div className="mb-3 rounded bg-white p-4 shadow dark:bg-dark-secondary dark:text-white">
       {task.attachments && task.attachments.length > 0 && (
@@ -60,6 +64,17 @@ const TaskCard = ({ task }: Props) => {
         <strong>Assignee:</strong>{" "}
         {task.assignee ? task.assignee.username : "Unassigned"}
       </p>
+      <button
+        className="flex h-6 w-4 flex-shrink-0 items-center justify-center dark:text-neutral-500"
+        onClick={() => setIsModalEditTaskOpen(true)}
+      >
+        <EllipsisVertical size={26} />
+      </button>
+      <ModalEditTask
+        isOpen={isModalEditTaskOpen}
+        onClose={() => setIsModalEditTaskOpen(false)}
+        task={task}
+      />
     </div>
   );
 };

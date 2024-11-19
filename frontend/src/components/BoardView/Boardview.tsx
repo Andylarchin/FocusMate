@@ -173,27 +173,6 @@ const Task = ({ task }: TaskProps) => {
         isDragging ? "opacity-50" : "opacity-100"
       }`}
     >
-      {/* {task.attachments && task.attachments.length > 0 && (
-        <div className="p-4 border-b border-gray-200 dark:border-stroke-dark">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              {task.attachments.map((attachment) => (
-                <img
-                  key={attachment.id}
-                  src="src/images/pexels-geladelrosario-4341879.jpg"
-                  alt={attachment.filename}
-                  width={30}
-                  height={30}
-                  className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
-                />
-              ))}
-            </div>
-            <button className="flex h-6 w-4 flex-shrink-0 items-center justify-center dark:text-neutral-500">
-              <EllipsisVertical size={26} />
-            </button>
-          </div>
-        </div>
-      )} */}
       <div className="p-4 md:p-6">
         <div className="flex items-start justify-between">
           <div className="flex flex-1 flex-wrap items-center gap-2">

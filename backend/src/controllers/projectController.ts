@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export const getProjects = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const projects = await prisma.project.findMany();
@@ -19,7 +19,7 @@ export const getProjects = async (
 
 export const createProject = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { name, description, startDate, endDate } = req.body;
   try {
