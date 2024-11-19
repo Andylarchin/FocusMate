@@ -98,13 +98,6 @@ export const api = createApi({
           ? result.map(({ id }) => ({ type: "Tasks", id }))
           : [{ type: "Tasks" }],
     }),
-    getTasksByUser: build.query<Task[], number>({
-      query: (userId) => `tasks/user/${userId}`,
-      providesTags: (result, error, userId) =>
-        result
-          ? result.map(({ id }) => ({ type: "Tasks", id }))
-          : [{ type: "Tasks", id: userId }],
-    }),
     createTask: build.mutation<Task, Partial<Task>>({
       query: (task) => ({
         url: `tasks`,
@@ -144,18 +137,25 @@ export const api = createApi({
     search: build.query<SearchResults, string>({
       query: (query) => `search?query=${query}`,
     }),
-    loginUser: build.mutation<{ token: string }, { email: string; password: string }>({
+    loginUser: build.mutation<
+      { token: string },
+      { email: string; password: string }
+    >({
       query: (credentials) => ({
         url: `users/login`,
         method: "POST",
         body: credentials,
       }),
-      registerUser: build.mutation<void, { email: string; password: string }>({
-        query: (credentials) => ({
-          url: `users/register`,
-          method: "POST",
-          body: credentials,
-        }),
+    }),
+    registerUser: build.mutation<
+      void,
+      { email: string; password: string; username: string; cognitoId: string }
+    >({
+      query: (credentials) => ({
+        url: `users/register`,
+        method: "POST",
+        body: credentials,
+      }),
     }),
   }),
 });
@@ -169,6 +169,7 @@ export const {
   useGetTeamsQuery,
   useGetUsersQuery,
   useUpdateTaskMutation,
-  useGetTasksByUserQuery,
   useUpdateTaskStatusMutation,
+  useLoginUserMutation,
+  useRegisterUserMutation,
 } = api;
